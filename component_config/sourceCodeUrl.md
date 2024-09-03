@@ -1,1 +1,1 @@
-git@github.com:roe-ai/keboola-extractor.git
+https://github.com/roe-ai/keboola-extractor

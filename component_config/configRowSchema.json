@@ -1,1 +1,20 @@
-{}
+{
+  "type": "object",
+  "title": "Configuration parameters",
+  "required": [
+    "table_name"
+  ],
+  "properties": {
+    "table_name": {
+      "type": "string",
+      "title": "Table Name",
+      "propertyOrder": 1
+    },
+    "query": {
+      "type": "string",
+      "title": "SQL Query",
+      "description": "Optional query to load specific data",
+      "propertyOrder": 2
+    }
+  }
+}
