@@ -1,1 +1,1 @@
-Retrieve data from Roe AI database tables.
+Roe AI helps you to manage, process and query unstructured data.

@@ -1,5 +1,3 @@
-# Roe AI Extractor
-
 Retrieve data from Roe AI database tables. You can use either a table name or a SQL query to have the full flexibility.
 
 ## Authentication

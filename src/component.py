@@ -63,10 +63,16 @@ class Component(ComponentBase):
 
         # Define the CSV file name
         csv_file_name = os.path.join(self.tables_out_path, "result.csv")
+        output_table_definition = self.create_out_table_definition("result.csv")
 
         try:
             # Write the data to the CSV file with proper quoting
-            with open(csv_file_name, mode="w", newline="", encoding="utf-8") as file:
+            with open(
+                output_table_definition.full_path,
+                mode="w",
+                newline="",
+                encoding="utf-8",
+            ) as file:
                 writer = csv.writer(file, quoting=csv.QUOTE_ALL)
 
                 # Write the header
@@ -75,11 +81,11 @@ class Component(ComponentBase):
                 # Write the data rows
                 writer.writerows(result_rows)
 
+            self.write_manifest(output_table_definition)
             logging.info("Data successfully written to %s", csv_file_name)
-            print(f"Data successfully written to {csv_file_name}")
         except Exception as e:
             logging.error("Failed to write data to CSV: %s", e)
-            print(f"Failed to write data to CSV: {e}")
+            raise UserException(f"Failed to write data to CSV: {e}")
 
 
 """
