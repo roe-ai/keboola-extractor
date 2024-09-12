@@ -6,8 +6,8 @@ from keboola.component.exceptions import UserException
 class Configuration(BaseModel):
     api_token: str = Field(alias="#api_token")
     table_name: str = Field()
-    query: str = Field()
-    storage_table_name: str = Field()
+    query: str = Field(default=None)
+    storage_table_name: str = Field(default=None)
     debug: bool = False
 
     def __init__(self, **data):
