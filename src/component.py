@@ -4,8 +4,8 @@ Template Component main class.
 """
 
 import csv
+import datetime
 import logging
-import os
 
 from keboola.component.base import ComponentBase
 from keboola.component.exceptions import UserException
@@ -39,6 +39,13 @@ class Component(ComponentBase):
         api_token = params.api_token
         table_name = params.table_name
         query = params.query
+
+        storage_table_name = params.storage_table_name
+        if not storage_table_name:
+            storage_table_name = "result" + datetime.datetime.now().strftime(
+                "%Y%m%d%H%M%S"
+            )
+
         if not query:
             query = f"SELECT * FROM {table_name}"
 
@@ -51,19 +58,18 @@ class Component(ComponentBase):
         if response.status_code >= 200 and response.status_code < 300:
             logging.info("Successfully loaded data for query: %s", query)
         else:
-            logging.info(
-                "Failed to load data for query: %s Error: %s", query, response.text
+            raise UserException(
+                f"Failed to load data for query: {query} Error: {response.text}"
             )
 
         # Extract column names and result rows from the API response
         result = response.json()[0]
-        logging.info(f"Result: {result}")
         column_names = result["column_names"]
         result_rows = result["result_rows"]
 
         # Define the CSV file name
-        csv_file_name = os.path.join(self.tables_out_path, "result.csv")
-        output_table_definition = self.create_out_table_definition("result.csv")
+        file_name = f"{storage_table_name}.csv"
+        output_table_definition = self.create_out_table_definition(file_name)
 
         try:
             # Write the data to the CSV file with proper quoting
@@ -82,9 +88,10 @@ class Component(ComponentBase):
                 writer.writerows(result_rows)
 
             self.write_manifest(output_table_definition)
-            logging.info("Data successfully written to %s", csv_file_name)
+            logging.info(
+                "Data successfully written to %s", output_table_definition.full_path
+            )
         except Exception as e:
-            logging.error("Failed to write data to CSV: %s", e)
             raise UserException(f"Failed to write data to CSV: {e}")
 
 

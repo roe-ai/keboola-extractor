@@ -8,6 +8,7 @@
     "#api_token": {
       "type": "string",
       "title": "API Token",
+      "description": "API token to access the API which you can find at <a href=\"https://app.roe-ai.com/settings\">Roe AI Settings</a>",
       "format": "password",
       "propertyOrder": 1
     }

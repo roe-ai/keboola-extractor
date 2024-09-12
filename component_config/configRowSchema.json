@@ -8,13 +8,27 @@
     "table_name": {
       "type": "string",
       "title": "Table Name",
+      "description": "Name of the table to read data from",
       "propertyOrder": 1
     },
     "query": {
       "type": "string",
+      "format": "editor",
+      "options": {
+        "editor": {
+          "mode": "text/x-sql",
+          "theme": "monokai"
+        }
+      },
       "title": "SQL Query",
-      "description": "Optional query to load specific data",
+      "description": "Optional Roe AI VolansDB query to load more specific data",
       "propertyOrder": 2
+    },
+    "storage_table_name": {
+      "type": "string",
+      "title": "Storage Table Name",
+      "description": "Name of the destination table. Source table name will be used if not specified.",
+      "propertyOrder": 3
     }
   }
 }
